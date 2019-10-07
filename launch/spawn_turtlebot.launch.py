@@ -17,76 +17,74 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))  # noqa
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'launch'))  # noqa
 
-import launch
-import tempfile
-import launch_ros.actions
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 from launch_ros import get_default_launch_description
-
 from ament_index_python.packages import get_package_share_directory
-import xacro
-import lifecycle_msgs.msg
-import subprocess
+
 
 def generate_launch_description():
-    turtlebot3_model = "turtlebot3_" + os.environ.get('TURTLEBOT3_MODEL', 'waffle_pi') + ".urdf"
+    turtlebot3_model = "turtlebot3_" + \
+        os.environ.get('TURTLEBOT3_MODEL', 'burger') + ".urdf"
 
-    ld = launch.LaunchDescription([
-        launch.actions.DeclareLaunchArgument(
+    ld = LaunchDescription([
+        DeclareLaunchArgument(
             name='use_sim_time',
             default_value='true'
         ),
-        launch.actions.DeclareLaunchArgument(
+        DeclareLaunchArgument(
             name='x_pos',
             default_value='0.0'
         ),
-        launch.actions.DeclareLaunchArgument(
+        DeclareLaunchArgument(
             name='y_pos',
             default_value='0.0'
         ),
-        launch.actions.DeclareLaunchArgument(
+        DeclareLaunchArgument(
             name='z_pos',
             default_value='0.0'
         ),
-        launch.actions.DeclareLaunchArgument(
+        DeclareLaunchArgument(
             name='roll',
             default_value='0.0'
         ),
-        launch.actions.DeclareLaunchArgument(
+        DeclareLaunchArgument(
             name='pitch',
             default_value='0.0'
         ),
-        launch.actions.DeclareLaunchArgument(
+        DeclareLaunchArgument(
             name='yaw',
             default_value='0.0'
         ),
-        launch_ros.actions.Node(
+        Node(
             package='gazebo_ros',
             node_executable='spawn_entity.py',
             output='screen',
             arguments=[
                 '-entity',
                 'robot',
-                '-file', 
-                os.path.join(get_package_share_directory('turtlebot3_description_reduced_mesh'), 'urdf', turtlebot3_model),
+                '-file',
+                os.path.join(get_package_share_directory(
+                    'turtlebot3_description_reduced_mesh'), 'urdf', turtlebot3_model),
                 '-x',
-                launch.substitutions.LaunchConfiguration('x_pos'),
+                LaunchConfiguration('x_pos'),
                 '-y',
-                launch.substitutions.LaunchConfiguration('y_pos'),
+                LaunchConfiguration('y_pos'),
                 '-z',
-                launch.substitutions.LaunchConfiguration('z_pos'),
+                LaunchConfiguration('z_pos'),
                 '-R',
-                launch.substitutions.LaunchConfiguration('roll'),
+                LaunchConfiguration('roll'),
                 '-P',
-                launch.substitutions.LaunchConfiguration('pitch'),
+                LaunchConfiguration('pitch'),
                 '-Y',
-                launch.substitutions.LaunchConfiguration('yaw')
+                LaunchConfiguration('yaw')
             ]
         ),
     ])
-    return ld 
+    return ld
 
 
 if __name__ == '__main__':
