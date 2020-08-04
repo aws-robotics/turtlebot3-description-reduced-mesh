@@ -28,7 +28,7 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     turtlebot3_model = "turtlebot3_" + \
-        os.environ.get('TURTLEBOT3_MODEL', 'burger') + ".urdf"
+        os.environ.get('TURTLEBOT3_MODEL', 'waffle_pi') + ".urdf"
 
     ld = LaunchDescription([
         DeclareLaunchArgument(
