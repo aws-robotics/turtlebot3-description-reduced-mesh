@@ -17,11 +17,6 @@
           -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) 
           -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 
-  <!-- 
-       Publish robot and joint states. This allows rviz to display robot data, and in 
-       the robot's coordinate frame. These nodes could go into the robot application 
-       .launch files instead.
-    -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+  <!-- Publish joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 </launch>
